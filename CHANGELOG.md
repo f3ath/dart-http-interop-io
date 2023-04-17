@@ -1,0 +1,8 @@
+## [Unreleased]
+
+## [0.0.1] - 2023-04-16
+### Added
+- Initial release
+
+[Unreleased]: https://github.com/f3ath/dart-http-interop-io/compare/0.0.1...HEAD
+[0.0.1]: https://github.com/f3ath/dart-http-interop-io/releases/tag/0.0.1
