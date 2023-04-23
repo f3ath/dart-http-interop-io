@@ -1,15 +1,15 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:http_interop/http_interop.dart';
 
-/// Wraps a [Handler] into a listener for [HttpServer].
-Future<void> Function(HttpRequest) listener(Handler handler) =>
+/// Wraps the [handler] into a listener for [HttpServer].
+Future<void> Function(io.HttpRequest) listener(HttpHandler handler) =>
     (request) async {
       final headers = <String, String>{};
       request.headers.forEach((k, v) => headers[k] = v.join(','));
       handler
-          .handle(Request(request.method, request.requestedUri,
+          .handle(HttpRequest(request.method, request.requestedUri,
               body: await request
                   .cast<List<int>>()
                   .transform(utf8.decoder)
