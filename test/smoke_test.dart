@@ -19,14 +19,14 @@ void main() {
   tearDown(() => server.close());
 
   test('Send/Receive', () async {
-    final request = Request('GET', Uri.parse('http://$host:$port'));
+    final request = HttpRequest('GET', Uri.parse('http://$host:$port'));
     final response = await client.handle(request);
     expect(response.body, startsWith('Hello'));
   }, testOn: 'vm');
 }
 
-class HelloHandler implements Handler {
+class HelloHandler implements HttpHandler {
   @override
-  Future<Response> handle(Request request) async =>
-      Response(200, body: 'Hello! ${DateTime.now()}');
+  Future<HttpResponse> handle(HttpRequest request) async =>
+      HttpResponse(200, body: 'Hello! ${DateTime.now()}');
 }

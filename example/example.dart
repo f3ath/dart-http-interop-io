@@ -15,9 +15,8 @@ Future<void> main() async {
   print('Listening on http://$host:${server.port}. Press Ctrl+C to stop.');
 }
 
-class HelloHandler implements Handler {
+class HelloHandler implements HttpHandler {
   @override
-  Future<Response> handle(Request request) async {
-    return Response(200, body: 'Hello! ${DateTime.now()}');
-  }
+  Future<HttpResponse> handle(HttpRequest request) async =>
+      HttpResponse(200, body: 'Hello! ${DateTime.now()}');
 }
