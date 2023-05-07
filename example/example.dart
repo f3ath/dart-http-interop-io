@@ -18,5 +18,5 @@ Future<void> main() async {
 class HelloHandler implements HttpHandler {
   @override
   Future<HttpResponse> handle(HttpRequest request) async =>
-      HttpResponse(200, body: 'Hello! ${DateTime.now()}');
+      HttpResponse(200, 'Hello! ${DateTime.now()}');
 }

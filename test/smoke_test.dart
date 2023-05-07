@@ -19,7 +19,8 @@ void main() {
   tearDown(() => server.close());
 
   test('Send/Receive', () async {
-    final request = HttpRequest('GET', Uri.parse('http://$host:$port'));
+    final uri = Uri(scheme: 'http', host: host, port: port);
+    final request = HttpRequest('GET', uri, '');
     final response = await client.handle(request);
     expect(response.body, startsWith('Hello'));
   }, testOn: 'vm');
@@ -28,5 +29,5 @@ void main() {
 class HelloHandler implements HttpHandler {
   @override
   Future<HttpResponse> handle(HttpRequest request) async =>
-      HttpResponse(200, body: 'Hello! ${DateTime.now()}');
+      HttpResponse(200, 'Hello! ${DateTime.now()}');
 }
