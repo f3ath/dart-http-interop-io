@@ -1,13 +1,13 @@
 name: http_interop_io
 description: Interop-compatible wrapper over the standard dart:io HTTP server.
-version: 0.2.0
+version: 0.3.0
 repository: https://github.com/f3ath/dart-http-interop-io
 
 environment:
-  sdk: '>=3.0.0-417.4.beta <4.0.0'
+  sdk: '>=2.19.0 <4.0.0'
 
 dependencies:
-    http_interop: ^0.3.0
+    http_interop: ^0.4.0
 
 dev_dependencies:
   lints: ^2.0.1
@@ -15,7 +15,7 @@ dev_dependencies:
   test: ^1.21.1
   check_coverage: ^0.0.2
   stream_channel: ^2.1.0
-  http_interop_http: ^0.2.0
+  http_interop_http: ^0.3.0
 
 cider:
   link_template:
