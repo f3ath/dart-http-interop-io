@@ -14,9 +14,8 @@ extension HttpHeadersExt on io.HttpHeaders {
 
 extension HttpRequestExt on io.HttpRequest {
   /// Converts this request to an interop request.
-  Future<HttpRequest> toInterop() =>
-      body().then((body) => HttpRequest.binary(method, requestedUri, body,
-          headers: headers.folded()));
+  Future<Request> toInterop() => body().then((body) => Request(Method(method),
+      requestedUri, Body.binary(body), Headers(headers.folded())));
 
   /// Reads the full body of the request.
   Future<Uint8List> body() =>
@@ -24,10 +23,10 @@ extension HttpRequestExt on io.HttpRequest {
 }
 
 extension HttpResponseExt on io.HttpResponse {
-  Future<void> send(HttpResponse response) async {
+  Future<void> send(Response response) async {
     response.headers.forEach(headers.add);
     statusCode = response.statusCode;
-    write(response.body);
+    await response.body.bytes.forEach(add);
     await close();
   }
 }
