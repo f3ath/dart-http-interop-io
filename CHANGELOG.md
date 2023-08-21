@@ -8,7 +8,7 @@
 
 ## [0.3.0] - 2023-05-07
 ### Changed
-- Relaxed SDK verion to 2.19
+- Relaxed SDK version to 2.19
 
 ## [0.2.0] - 2023-05-07
 ### Changed
