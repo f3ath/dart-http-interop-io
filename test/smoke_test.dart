@@ -22,7 +22,7 @@ void main() {
 
   test('Send/Receive', () async {
     final uri = Uri(scheme: 'http', host: host, port: port);
-    final request = Request(Method('GET'), uri, Body.empty, Headers({}));
+    final request = Request(Method('GET'), uri, Body.empty(), Headers({}));
     final response = await client.handle(request);
     expect(await response.body.decode(utf8), startsWith('Hello'));
   }, testOn: 'vm');
