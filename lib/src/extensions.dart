@@ -4,18 +4,20 @@ import 'dart:typed_data';
 import 'package:http_interop/http_interop.dart';
 
 extension HttpHeadersExt on io.HttpHeaders {
-  /// Returns the folded headers.
-  Map<String, String> folded() {
-    final result = <String, String>{};
-    forEach((key, value) => result[key] = value.join(','));
-    return result;
+  /// Converts to [Headers].
+  Headers toInterop() {
+    final headers = Headers({});
+    forEach((name, values) {
+      headers[name] = values;
+    });
+    return headers;
   }
 }
 
 extension HttpRequestExt on io.HttpRequest {
   /// Converts this request to an interop request.
-  Future<Request> toInterop() => body().then((body) => Request(Method(method),
-      requestedUri, Body.binary(body), Headers(headers.folded())));
+  Future<Request> toInterop() => body().then((body) => Request(
+      Method(method), requestedUri, Body.binary(body), headers.toInterop()));
 
   /// Reads the full body of the request.
   Future<Uint8List> body() =>
