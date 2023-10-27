@@ -6,18 +6,18 @@ import 'package:http_interop/http_interop.dart';
 extension HttpHeadersExt on io.HttpHeaders {
   /// Converts to [Headers].
   Headers toInterop() {
-    final headers = Headers({});
+    final headers = <String, List<String>>{};
     forEach((name, values) {
       headers[name] = values;
     });
-    return headers;
+    return Headers.from(headers);
   }
 }
 
 extension HttpRequestExt on io.HttpRequest {
   /// Converts this request to an interop request.
-  Future<Request> toInterop() => body().then((body) => Request(
-      Method(method), requestedUri, Body.binary(body), headers.toInterop()));
+  Future<Request> toInterop() => body().then((body) =>
+      Request(method, requestedUri, Body.binary(body), headers.toInterop()));
 
   /// Reads the full body of the request.
   Future<Uint8List> body() =>
