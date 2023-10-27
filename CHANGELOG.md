@@ -1,3 +1,7 @@
+## [0.7.0] - 2023-10-26
+### Changed
+- Bumped interop to 1.0.0
+
 ## [0.6.0] - 2023-09-07
 ### Changed
 - Bump Interop to 0.8
@@ -26,6 +30,7 @@
 ### Added
 - Initial release
 
+[0.7.0]: https://github.com/f3ath/dart-http-interop-io/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/f3ath/dart-http-interop-io/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/f3ath/dart-http-interop-io/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/f3ath/dart-http-interop-io/compare/0.3.0...0.4.0

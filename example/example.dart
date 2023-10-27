@@ -21,5 +21,5 @@ Future<void> main() async {
 class HelloHandler implements Handler {
   @override
   Future<Response> handle(Request request) async =>
-      Response(200, Body('Hello! ${DateTime.now()}', utf8), Headers({}));
+      Response(200, Body.text('Hello! ${DateTime.now()}', utf8), Headers());
 }
