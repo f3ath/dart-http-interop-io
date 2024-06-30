@@ -1,2 +1,2 @@
-export 'package:http_interop_io/src/extension.dart';
-export 'package:http_interop_io/src/listener.dart';
+export 'package:http_interop_io/src/client.dart';
+export 'package:http_interop_io/src/server.dart';
