@@ -5,10 +5,10 @@ import 'package:http_interop/http_interop.dart';
 import 'package:http_interop_io/http_interop_io.dart';
 
 Future<void> main() async {
-  final host = 'localhost';
-  final port = 8080;
+  const host = 'localhost';
+  const port = 8080;
   final server = await HttpServer.bind(host, port);
-  server.listen(listener(sayHello));
+  server.listenInterop(sayHello);
 
   ProcessSignal.sigint.watch().listen((event) async {
     stderr.writeln('$event received, exiting');

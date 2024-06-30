@@ -1,3 +1,7 @@
+## [0.9.0] - 2024-06-30
+### Changed
+- Simpllified API
+
 ## [0.8.0] - 2024-06-30
 ### Changed
 - Bump intertop to v2.0
@@ -34,6 +38,7 @@
 ### Added
 - Initial release
 
+[0.9.0]: https://github.com/f3ath/dart-http-interop-io/compare/0.8.0...0.9.0
 [0.8.0]: https://github.com/f3ath/dart-http-interop-io/compare/0.7.0...0.8.0
 [0.7.0]: https://github.com/f3ath/dart-http-interop-io/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/f3ath/dart-http-interop-io/compare/0.5.0...0.6.0

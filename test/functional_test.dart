@@ -7,17 +7,15 @@ import 'package:http_interop_io/http_interop_io.dart';
 import 'package:test/test.dart';
 
 void main() {
-  HttpClient httpClient = HttpClient();
+  late HttpClient httpClient;
   late HttpServer httpServer;
-  late Handler handler;
   final host = 'localhost';
   final port = 8000;
 
   setUp(() async {
     httpClient = HttpClient();
-    handler = httpClient.interopHandler();
     httpServer = await HttpServer.bind(host, port);
-    httpServer.listen(listener(echoHandler));
+    httpServer.listenInterop(echoHandler);
   });
 
   tearDown(() {
@@ -43,7 +41,7 @@ void main() {
       };
       final rq =
           Request('post', uri, Body.text('Hello', utf8), Headers.from(headers));
-      final rs = await handler(rq);
+      final rs = await httpClient.handleInterop(rq);
 
       expect(rs.statusCode, 200);
       final Map decoded = await rs.body.decodeJson();

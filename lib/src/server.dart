@@ -1,11 +1,20 @@
+import 'dart:async';
 import 'dart:io' as io;
 import 'dart:typed_data';
 
 import 'package:http_interop/http_interop.dart';
 
-/// Converts the [handler] into a listener for [HttpServer].
-Future<void> Function(io.HttpRequest) listener(Handler handle) =>
-    (request) => request.toInterop().then(handle).then(request.response.send);
+extension ServerExt on io.HttpServer {
+  StreamSubscription<io.HttpRequest> listenInterop(Handler handler,
+          {Function? onError, void Function()? onDone, bool? cancelOnError}) =>
+      listen(handler.toListener(),
+          onDone: onDone, onError: onError, cancelOnError: cancelOnError);
+}
+
+extension on Handler {
+  Future<void> Function(io.HttpRequest) toListener() =>
+      (request) => request.toInterop().then(this).then(request.response.send);
+}
 
 extension on io.HttpResponse {
   Future<void> send(Response response) async {
