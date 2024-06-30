@@ -8,7 +8,7 @@ Future<void> main() async {
   final host = 'localhost';
   final port = 8080;
   final server = await HttpServer.bind(host, port);
-  server.listen(listener(HelloHandler()));
+  server.listen(listener(sayHello));
 
   ProcessSignal.sigint.watch().listen((event) async {
     stderr.writeln('$event received, exiting');
@@ -18,8 +18,5 @@ Future<void> main() async {
   print('Listening on http://$host:$port. Press Ctrl+C to stop.');
 }
 
-class HelloHandler implements Handler {
-  @override
-  Future<Response> handle(Request request) async =>
-      Response(200, Body.text('Hello! ${DateTime.now()}', utf8), Headers());
-}
+Future<Response> sayHello(Request request) async =>
+    Response(200, Body.text('Hello! ${DateTime.now()}', utf8), Headers());
