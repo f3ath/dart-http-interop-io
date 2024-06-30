@@ -3,6 +3,6 @@ import 'dart:io' as io;
 import 'package:http_interop/http_interop.dart';
 import 'package:http_interop_io/src/extensions.dart';
 
-/// Wraps the [handler] into a listener for [HttpServer].
-Future<void> Function(io.HttpRequest) listener(Handler handler) => (request) =>
-    request.toInterop().then(handler.handle).then(request.response.send);
+/// Converts the [handler] into a listener for [HttpServer].
+Future<void> Function(io.HttpRequest) listener(Handler handle) =>
+    (request) => request.toInterop().then(handle).then(request.response.send);
