@@ -1,9 +1,9 @@
-import 'dart:io';
+import 'dart:io' as io;
 import 'dart:typed_data';
 
 import 'package:http_interop/http_interop.dart';
 
-extension HttpClientExt on HttpClient {
+extension HttpClientExt on io.HttpClient {
   Handler interopHandler() => (Request request) async {
         final rq = await open(request.method, request.uri.host,
             request.uri.port, request.uri.path);
@@ -22,3 +22,4 @@ extension HttpClientExt on HttpClient {
             Headers.from(headers));
       };
 }
+

@@ -49,7 +49,8 @@ void main() {
       final Map decoded = await rs.body.decodeJson();
       expect(decoded['method'], equals('post'));
       expect(decoded['body'], equals([72, 101, 108, 108, 111]));
-      expect(decoded['headers']['accept'][0], equals('text/html'));
+      expect(decoded['headers']['vary'][0], startsWith('Accept'));
+      expect(decoded['headers']['accept'][0], startsWith('text/html'));
       expect(rs.headers['set-cookie']![1],
           equals('k2=v2; Expires=Thu, 24 Feb 2033 07:28:00 GMT'));
     });
