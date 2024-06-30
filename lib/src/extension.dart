@@ -22,4 +22,3 @@ extension HttpClientExt on io.HttpClient {
             Headers.from(headers));
       };
 }
-
