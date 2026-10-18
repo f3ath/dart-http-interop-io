@@ -3,22 +3,22 @@ import 'dart:typed_data';
 
 import 'package:http_interop/http_interop.dart';
 
+import 'headers.dart';
+
 extension HttpClientExt on io.HttpClient {
   Future<Response> handleInterop(Request request) async {
-    final rq = await open(
-        request.method, request.uri.host, request.uri.port, request.uri.path);
-    request.headers.forEach((key, values) {
-      for (final element in values) {
-        rq.headers.add(key, element);
-      }
-    });
-    await request.body.bytes.forEach(rq.add);
+    final rq = await openUrl(request.method, request.uri);
+    request.headers.forEach(rq.headers.add);
+    await rq.addStream(request.body.bytes);
     final rs = await rq.close();
-    final headers = <String, List<String>>{};
-    rs.headers.forEach((name, values) {
-      headers[name] = values;
-    });
-    return Response(rs.statusCode, Body.stream(rs.map(Uint8List.fromList)),
-        Headers.from(headers));
+    return Response(
+      rs.statusCode,
+      Body.stream(
+        rs.map(
+          (chunk) => chunk is Uint8List ? chunk : Uint8List.fromList(chunk),
+        ),
+      ),
+      rs.headers.toInterop(),
+    );
   }
 }

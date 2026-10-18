@@ -1,10 +1,14 @@
+## [0.9.1] - 2026-10-17
+### Changed
+- Stream management optimizations
+
 ## [0.9.0] - 2024-06-30
 ### Changed
-- Simpllified API
+- Simplified API
 
 ## [0.8.0] - 2024-06-30
 ### Changed
-- Bump intertop to v2.0
+- Bump Interop to v2.0
 
 ## [0.7.0] - 2023-10-26
 ### Changed
@@ -38,6 +42,7 @@
 ### Added
 - Initial release
 
+[0.9.1]: https://github.com/f3ath/dart-http-interop-io/compare/0.9.0...0.9.1
 [0.9.0]: https://github.com/f3ath/dart-http-interop-io/compare/0.8.0...0.9.0
 [0.8.0]: https://github.com/f3ath/dart-http-interop-io/compare/0.7.0...0.8.0
 [0.7.0]: https://github.com/f3ath/dart-http-interop-io/compare/0.6.0...0.7.0

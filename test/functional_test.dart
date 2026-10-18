@@ -24,6 +24,24 @@ void main() {
   });
 
   group('Functional', () {
+    test('Preserves request path and query string', () async {
+      final uri = Uri(
+        scheme: 'http',
+        host: host,
+        port: port,
+        path: '/search',
+        queryParameters: {'q': 'hello world', 'page': '2'},
+      );
+      final rs = await httpClient.handleInterop(
+        Request('GET', uri, Body(), Headers()),
+      );
+      final Map decoded = await rs.body.decodeJson();
+      final receivedUri = Uri.parse(decoded['uri'] as String);
+
+      expect(receivedUri.path, uri.path);
+      expect(receivedUri.queryParameters, uri.queryParameters);
+    });
+
     test('Echo', () async {
       final uri = Uri(scheme: 'http', host: host, port: port);
       final headers = {
@@ -36,11 +54,15 @@ void main() {
           'image/webp',
           'image/apng',
           '*/*;q=0.8',
-          'application/signed-exchange;v=b3;q=0.7'
-        ]
+          'application/signed-exchange;v=b3;q=0.7',
+        ],
       };
-      final rq =
-          Request('post', uri, Body.text('Hello', utf8), Headers.from(headers));
+      final rq = Request(
+        'post',
+        uri,
+        Body.text('Hello', utf8),
+        Headers.from(headers),
+      );
       final rs = await httpClient.handleInterop(rq);
 
       expect(rs.statusCode, 200);
@@ -49,8 +71,10 @@ void main() {
       expect(decoded['body'], equals([72, 101, 108, 108, 111]));
       expect(decoded['headers']['vary'][0], startsWith('Accept'));
       expect(decoded['headers']['accept'][0], startsWith('text/html'));
-      expect(rs.headers['set-cookie']![1],
-          equals('k2=v2; Expires=Thu, 24 Feb 2033 07:28:00 GMT'));
+      expect(
+        rs.headers['set-cookie']![1],
+        equals('k2=v2; Expires=Thu, 24 Feb 2033 07:28:00 GMT'),
+      );
     });
   });
 }
@@ -58,15 +82,16 @@ void main() {
 Future<Response> echoHandler(Request request) async {
   final body = Body.json({
     'method': request.method,
+    'uri': request.uri.toString(),
     'headers': request.headers,
-    'body': await request.body.bytes.expand((chunk) => chunk).toList()
+    'body': await request.body.bytes.expand((chunk) => chunk).toList(),
   });
   final headers = {
     'Content-Type': ['application/json'],
     'Set-Cookie': [
       'k1=v1; Expires=Thu, 24 Feb 2033 07:28:00 GMT',
-      'k2=v2; Expires=Thu, 24 Feb 2033 07:28:00 GMT'
-    ]
+      'k2=v2; Expires=Thu, 24 Feb 2033 07:28:00 GMT',
+    ],
   };
   return Response(200, body, Headers.from(headers));
 }
