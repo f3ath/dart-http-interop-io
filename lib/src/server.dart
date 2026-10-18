@@ -11,12 +11,13 @@ extension ServerExt on io.HttpServer {
     Function? onError,
     void Function()? onDone,
     bool? cancelOnError,
-  }) => listen(
-    handler.toListener(),
-    onDone: onDone,
-    onError: onError,
-    cancelOnError: cancelOnError,
-  );
+  }) =>
+      listen(
+        handler.toListener(),
+        onDone: onDone,
+        onError: onError,
+        cancelOnError: cancelOnError,
+      );
 }
 
 extension on Handler {
