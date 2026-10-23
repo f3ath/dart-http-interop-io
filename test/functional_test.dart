@@ -21,6 +21,75 @@ void main() {
   });
 
   group('Functional', () {
+    test('Releases the connection when header validation fails', () async {
+      server.listenInterop(echoHandler);
+      client.maxConnectionsPerHost = 1;
+      final uri = Uri(scheme: 'http', host: host, port: server.port);
+
+      await expectLater(
+        client.sendInterop(
+          Request(
+            'GET',
+            uri,
+            Body.empty(),
+            Headers.from({
+              'invalid header': ['value'],
+            }),
+          ),
+        ),
+        throwsFormatException,
+      );
+
+      final response = await client
+          .sendInterop(Request('GET', uri, Body.empty(), Headers()))
+          .timeout(
+            const Duration(seconds: 1),
+            onTimeout: () => fail(
+              'Header validation failure left the only connection occupied.',
+            ),
+          );
+
+      expect(response.statusCode, HttpStatus.ok);
+      final Map decoded = await response.body.decodeJson();
+      expect(decoded['method'], 'GET');
+    });
+
+    for (final consumeBody in [false, true]) {
+      test(
+        'Releases the connection when conversion fails ${consumeBody ? 'after' : 'before'} reading the body',
+        () async {
+          server.listenInterop(echoHandler);
+          client.maxConnectionsPerHost = 1;
+          final uri = Uri(scheme: 'http', host: host, port: server.port);
+          final failure = StateError('Response conversion failed');
+
+          await expectLater(
+            client.sendInterop(
+              Request('GET', uri, Body.empty(), Headers()),
+              responseConverter: (native) async {
+                if (consumeBody) await native.drain<void>();
+                throw failure;
+              },
+            ),
+            throwsA(same(failure)),
+          );
+
+          final response = await client
+              .sendInterop(Request('GET', uri, Body.empty(), Headers()))
+              .timeout(
+                const Duration(seconds: 1),
+                onTimeout: () => fail(
+                  'Response conversion failure left the only connection occupied.',
+                ),
+              );
+
+          expect(response.statusCode, HttpStatus.ok);
+          final Map decoded = await response.body.decodeJson();
+          expect(decoded['method'], 'GET');
+        },
+      );
+    }
+
     test('Awaits responseConverter and returns its response', () async {
       server.listenInterop(echoHandler);
       final uri = Uri(scheme: 'http', host: host, port: server.port);

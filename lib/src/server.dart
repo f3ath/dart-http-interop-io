@@ -5,7 +5,7 @@ import 'package:http_interop/http_interop.dart';
 
 import 'headers.dart';
 
-extension ServerExt on io.HttpServer {
+extension HttpServerExt on io.HttpServer {
   /// Handles incoming requests with [handler] and sends its responses.
   ///
   /// Converts each request to an interop request with a streaming body, then
