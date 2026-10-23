@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:http_interop/http_interop.dart';
@@ -10,13 +9,11 @@ Future<void> main() async {
   final server = await HttpServer.bind(host, port);
   server.listenInterop(sayHello);
 
-  ProcessSignal.sigint.watch().listen((event) async {
-    stderr.writeln('$event received, exiting');
-    await server.close(force: true);
-    exit(0);
-  });
   print('Listening on http://$host:$port. Press Ctrl+C to stop.');
+  final signal = await ProcessSignal.sigint.watch().first;
+  stderr.writeln('$signal received, exiting');
+  await server.close(force: true);
 }
 
 Future<Response> sayHello(Request request) async =>
-    Response(200, Body.text('Hello! ${DateTime.now()}', utf8), Headers());
+    Response(200, Body.text('Hello! You requested ${request.uri}'), Headers());
