@@ -4,10 +4,10 @@ version: 0.9.1
 repository: https://github.com/f3ath/dart-http-interop-io
 
 environment:
-  sdk: '>=3.4.0 <4.0.0'
+  sdk: ^3.13.0
 
 dependencies:
-    http_interop: ^2.0.0
+    http_interop: ^3.0.0
 
 dev_dependencies:
   lints: ^6.1.0
